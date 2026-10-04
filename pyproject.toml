@@ -3,19 +3,28 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "om-ollama"
-version = "0.1.0"
-description = "Rich-powered terminal chat for Ollama with built-in background server management"
+name = "sys"
+version = "0.1.2"
+description = "Terminal toolkit: Ollama chat, pacman/AUR package manager, fuzzy cheat sheets"
 requires-python = ">=3.9"
 dependencies = [
     "rich>=13.7",
     "prompt_toolkit>=3.0.43",
     "requests>=2.31",
     "psutil>=5.9",
+    "textual>=0.40",
+    "rapidfuzz>=3.0.0",
 ]
 
 [project.scripts]
 om = "om:main"
+arc = "arc:main"
+harpy = "harpy.main:main"
 
 [tool.setuptools]
-py-modules = ["om"]
+packages = ["om", "arc", "harpy"]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.22.3",
+]
