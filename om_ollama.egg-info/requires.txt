@@ -1,0 +1,4 @@
+rich>=13.7
+prompt_toolkit>=3.0.43
+requests>=2.31
+psutil>=5.9

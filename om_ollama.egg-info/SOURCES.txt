@@ -1,0 +1,8 @@
+om.py
+pyproject.toml
+om_ollama.egg-info/PKG-INFO
+om_ollama.egg-info/SOURCES.txt
+om_ollama.egg-info/dependency_links.txt
+om_ollama.egg-info/entry_points.txt
+om_ollama.egg-info/requires.txt
+om_ollama.egg-info/top_level.txt

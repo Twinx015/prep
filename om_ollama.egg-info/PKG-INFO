@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: om-ollama
+Version: 0.1.0
+Summary: Rich-powered terminal chat for Ollama with built-in background server management
+Requires-Python: >=3.9
+Requires-Dist: rich>=13.7
+Requires-Dist: prompt_toolkit>=3.0.43
+Requires-Dist: requests>=2.31
+Requires-Dist: psutil>=5.9
