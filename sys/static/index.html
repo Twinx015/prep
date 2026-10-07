@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sys</title>
+<link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+<header>
+  <h1 id="app-title">sys</h1>
+  <nav>
+    <button data-tab="chat" class="on">Chat</button>
+    <button data-tab="models">Models</button>
+    <button data-tab="cheats">Cheats</button>
+    <button data-tab="pkgs">Packages</button>
+    <button data-tab="jobs">Jobs</button>
+  </nav>
+  <span id="status">…</span>
+</header>
+<main>
+
+<section id="tab-chat" class="on">
+  <aside>
+    <button id="new-chat">+ new chat</button>
+    <select id="chat-sel" size="6"></select>
+    <button id="del-chat">delete chat</button>
+    <label class="muted">model<br><select id="model-sel"></select></label>
+    <a href="/api/chat/export" target="_blank">export .md</a>
+    <div class="muted">Enter sends · Shift+Enter newline</div>
+  </aside>
+  <div id="msgs"></div>
+  <form id="send">
+    <textarea id="input" rows="3" placeholder="Message…"></textarea>
+    <button class="primary">send</button>
+    <button type="button" id="stop">stop</button>
+  </form>
+</section>
+
+<section id="tab-models">
+  <div class="pane">
+    <div class="row">
+      <input id="pull-name" placeholder="model to pull, e.g. llama3.2:3b">
+      <button id="pull-go" class="primary">pull</button>
+      <button id="models-reload">refresh</button>
+      <span id="pull-msg" class="muted"></span>
+    </div>
+    <table id="models-t"><thead><tr><th>model</th><th>size</th><th>modified</th><th></th></tr></thead><tbody></tbody></table>
+  </div>
+</section>
+
+<section id="tab-cheats">
+  <div class="pane">
+    <div class="row">
+      <input id="cheat-q" placeholder="search cheats…">
+      <select id="cheat-sheet"></select>
+      <button id="cheat-reload">reload</button>
+    </div>
+    <table id="cheats-t"><thead><tr><th>sheet</th><th>command</th><th>description</th></tr></thead><tbody></tbody></table>
+    <div class="row">
+      <input id="new-tool" placeholder="tool (sheet)" style="min-width:140px">
+      <input id="new-cmd" placeholder="command" style="min-width:300px">
+      <input id="new-desc" placeholder="description">
+      <button id="cheat-save" class="primary">save</button>
+      <button id="cheat-run" class="rootonly">run</button>
+    </div>
+  </div>
+</section>
+
+<section id="tab-pkgs">
+  <div class="pane">
+    <div class="row">
+      <input id="pkg-q" placeholder="package name(s)…">
+      <button id="pkg-install" class="primary rootonly">install</button>
+      <button id="pkg-remove" class="rootonly">remove</button>
+      <button id="pkg-update" class="rootonly">update</button>
+      <button id="pkg-check">check</button>
+      <button id="pkg-orphans" class="rootonly">orphans</button>
+      <button id="pkg-clean" class="rootonly">clean</button>
+      <button id="pkg-index">reindex</button>
+    </div>
+    <div class="row">
+      <input id="pkg-pw" type="password" placeholder="sudo password (blank = passwordless)" style="min-width:300px">
+      <span id="pkg-hint" class="muted"></span>
+    </div>
+    <div id="pick-box" class="row hidden"></div>
+    <table id="pkgs-t"><thead><tr><th>package</th><th>source</th><th>status</th></tr></thead><tbody></tbody></table>
+  </div>
+</section>
+
+<section id="tab-jobs">
+  <div class="pane">
+    <div class="row">
+      <button id="jobs-reload">refresh</button>
+      <button id="jobs-kill" class="rootonly">kill</button>
+      <button id="jobs-clear" class="rootonly">clear finished</button>
+    </div>
+    <table id="jobs-t"><thead><tr><th>id</th><th>title</th><th>status</th><th>time</th></tr></thead><tbody></tbody></table>
+    <pre id="job-log" class="log"></pre>
+  </div>
+</section>
+
+</main>
+<script src="/assets/init.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

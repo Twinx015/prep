@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sys"
-version = "0.1.2"
+version = "0.2.0"
 description = "Terminal toolkit: Ollama chat, pacman/AUR package manager, fuzzy cheat sheets"
 requires-python = ">=3.9"
 dependencies = [
@@ -14,15 +14,21 @@ dependencies = [
     "psutil>=5.9",
     "textual>=0.40",
     "rapidfuzz>=3.0.0",
+    "httpx>=0.28.1",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
 ]
 
 [project.scripts]
+sys = "sysapp:main"
 om = "om:main"
-arc = "arc:main"
-harpy = "harpy.main:main"
 
 [tool.setuptools]
-packages = ["om", "arc", "harpy"]
+packages = ["sysapp", "om"]
+package-dir = { sysapp = "sys" }
+
+[tool.setuptools.package-data]
+sysapp = ["static/*"]
 
 [dependency-groups]
 dev = [

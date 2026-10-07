@@ -2,4 +2,5 @@
 build/
 dist/
 sys.egg-info/
-harpy/__pycache__/
+__pycache__/
+.playwright-mcp/

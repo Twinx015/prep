@@ -4,7 +4,9 @@
     om --serve      start `ollama serve` in the background (its PID is remembered)
     om --end        stop the server that `om --serve` started
     om --status     show server state and loaded models
-    om              chat (offers to start the server if it isn't running)
+    om              chat (starts Ollama if it isn't running, stops it again on exit)
+    om --no-start   chat without touching the server
+    om --keep       keep the auto-started server running after om exits
     om -m llama3.2 "hello"      pick a model / send a first message
 
 Deps: rich, prompt_toolkit, requests, psutil   (Python 3.9+)
@@ -45,7 +47,6 @@ from rich.progress import (
     TimeRemainingColumn,
     TransferSpeedColumn,
 )
-from rich.prompt import Confirm
 from rich.segment import Segment
 from rich.spinner import Spinner
 from rich.table import Table
@@ -218,6 +219,21 @@ def stop_server(console: Console, base: str) -> None:
         psutil.wait_procs(alive, timeout=3)
     PID_FILE.unlink(missing_ok=True)
     console.print(f"[green]●[/] Stopped Ollama (pid {pid}).")
+
+
+def ensure_server(console: Console, base: str, auto: bool = True) -> bool:
+    """Bring the server up if it is down; True when om started it just now."""
+    if server_up(base):
+        return False
+    if not auto:
+        console.print(f"[yellow]●[/] No Ollama server at {base} (auto-start disabled).")
+        return False
+    before = tracked_process()
+    console.print(f"[dim]No Ollama at {base} — starting one in the background…[/]")
+    if not start_server(console, base):
+        sys.exit(1)
+    after = tracked_process()
+    return after is not None and (before is None or after.pid != before.pid)
 
 
 def show_status(console: Console, base: str) -> None:
@@ -1079,6 +1095,8 @@ def main() -> None:
     g.add_argument("--status", action="store_true", help="show server status")
     ap.add_argument("-m", "--model", help="model to use (default: last used, else pick)")
     ap.add_argument("--host", help="Ollama address (default: $OLLAMA_HOST or 127.0.0.1:11434)")
+    ap.add_argument("--no-start", action="store_true", help="never start Ollama for me")
+    ap.add_argument("--keep", action="store_true", help="leave the auto-started server running on exit")
     args = ap.parse_args()
 
     console = Console(highlight=False)
@@ -1093,18 +1111,15 @@ def main() -> None:
         show_status(console, base)
         return
 
-    if not server_up(base):
-        console.print(f"[yellow]●[/] No Ollama server at {base}.")
-        if not Confirm.ask("  Start one in the background now?", default=True, console=console):
-            return
-        if not start_server(console, base):
-            sys.exit(1)
-
+    started_here = ensure_server(console, base, auto=not args.no_start)
     try:
         Chat(console, Client(base), load_config()).run(args.model, " ".join(args.prompt))
     except (OllamaError, requests.RequestException) as e:
         console.print(f"[red]✗[/] {escape(str(e))}")
         sys.exit(1)
+    finally:
+        if started_here and not args.keep:
+            stop_server(console, base)
 
 
 if __name__ == "__main__":
