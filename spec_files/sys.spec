@@ -8,7 +8,8 @@ The web UI's assets are bundled as data (`sys/static` -> `<tmp>/static`, which
 is where sys/main.py looks for them when frozen); everything else lives under
 $XDG_CONFIG_HOME/sys or $XDG_DATA_HOME/sys and stays outside the bundle.
 FastAPI and uvicorn register routes through decorators that static analysis
-cannot follow, so their submodules are collected by hand.
+cannot follow, and Textual imports its widgets lazily from
+textual.widgets.__getattr__(), so all three are collected by hand.
 """
 
 import os
@@ -18,7 +19,11 @@ from PyInstaller.utils.hooks import collect_submodules
 
 ROOT = Path(SPECPATH).parent
 
-hiddenimports = collect_submodules("fastapi") + collect_submodules("uvicorn")
+hiddenimports = (
+    collect_submodules("fastapi")
+    + collect_submodules("uvicorn")
+    + collect_submodules("textual.widgets")
+)
 
 a = Analysis(
     [os.path.join(ROOT, "sys", "main.py")],
