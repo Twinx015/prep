@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>prep</title>
+        <style>
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #0e0e0e;
+                color: #e6e8ea;
+                font:
+                    15px/1.6 system-ui,
+                    sans-serif;
+            }
+            main {
+                width: min(960px, 92vw);
+            }
+            header {
+                margin-bottom: 32px;
+            }
+            h1 {
+                margin: 0;
+                font-size: 28px;
+            }
+            header p {
+                margin: 4px 0 0;
+                color: #9aa3ad;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 16px;
+            }
+            a.card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                padding: 24px 16px;
+                border: 1px solid #262b33;
+                border-radius: 14px;
+                background: #14161a;
+                text-decoration: none;
+                color: inherit;
+                transition:
+                    transform 0.15s ease,
+                    border-color 0.15s ease,
+                    background 0.15s ease;
+            }
+            a.card:hover {
+                transform: translateY(-3px);
+                border-color: #4da3ff;
+                background: #171b21;
+            }
+            a.card svg,
+            a.card img {
+                width: 72px;
+                height: 72px;
+                object-fit: contain;
+            }
+            a.card h2 {
+                margin: 0;
+                font-size: 18px;
+            }
+            a.card p {
+                margin: 0;
+                color: #9aa3ad;
+                text-align: center;
+                font-size: 13px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <header>
+                <p>Choose a tool to launch.</p>
+            </header>
+            <div class="grid">{{ cards | safe }}</div>
+        </main>
+    </body>
+</html>

@@ -1,6 +1,6 @@
-.venv
-build/
-dist/
-sys.egg-info/
+prep_twinx.egg-info/
+.venv/
 __pycache__/
-.playwright-mcp/
+build/
+log/
+local*

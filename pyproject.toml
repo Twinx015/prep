@@ -3,34 +3,26 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sys"
-version = "0.2.0"
-description = "Terminal toolkit: Ollama chat, pacman/AUR package manager, fuzzy cheat sheets"
-requires-python = ">=3.9"
+name = "prep-twinx"
+version = "1.0.0"
+description = ""
+requires-python = ">=3.11"
 dependencies = [
-    "rich>=13.7",
-    "prompt_toolkit>=3.0.43",
-    "requests>=2.31",
-    "psutil>=5.9",
-    "textual>=0.40",
-    "rapidfuzz>=3.0.0",
-    "httpx>=0.28.1",
-    "fastapi>=0.110",
-    "uvicorn>=0.29",
+    "flask>=3.1.3",
+    "werkzeug>=3.1.9",
 ]
 
 [project.scripts]
-sys = "sysapp:main"
-om = "om:main"
+prep = "prep:main"
+prep-config = "prep.settings:main"
 
 [tool.setuptools]
-packages = ["sysapp", "om"]
-package-dir = { sysapp = "sys" }
+packages = ["prep"]
 
 [tool.setuptools.package-data]
-sysapp = ["static/*"]
+prep = ["static/*", "static/*/*"]
 
-[dependency-groups]
-dev = [
-    "pyinstaller>=6.22.3",
-]
+# [dependency-groups]
+# dev = [
+#     "pyinstaller>=6.22.3",
+# ]
